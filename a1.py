@@ -1,25 +1,70 @@
-# JULIEN SAVARY
-# 22982687
-# Project 1: File Escavator
-
 from pathlib import Path
 from sys import exit
 
 def list_contents(directory, recursive=False, only_files=False, search_name=None, search_extension=None):
-    # Implement the listing functionality here
-    pass
+    path = Path(directory)
+
+    if not path.is_dir():
+        print(f"ERROR: {directory} is not a valid directory.")
+        return
+
+    for item in path.iterdir():
+        if only_files and not item.is_file():
+            continue
+
+        if search_name and search_name not in item.name:
+            continue
+
+        if search_extension and not item.name.endswith(search_extension):
+            continue
+
+        print(item)
+
+        if recursive and item.is_dir():
+            list_contents(item, recursive, only_files, search_name, search_extension)
 
 def create_file(directory, file_name):
-    # Implement the file creation functionality here
-    pass
+    path = Path(directory) / (file_name + ".dsu")
+
+    if path.exists():
+        print(f"ERROR: File {path} already exists.")
+        return
+
+    try:
+        path.touch()
+        print(path)
+    except Exception as e:
+        print(f"ERROR: Failed to create file {path}. {e}")
 
 def delete_file(file_path):
-    # Implement the file deletion functionality here
-    pass
+    path = Path(file_path)
+
+    if not path.exists():
+        print(f"ERROR: File {path} not found.")
+        return
+
+    try:
+        path.unlink()
+        print(f"{path} DELETED")
+    except Exception as e:
+        print(f"ERROR: Failed to delete file {path}. {e}")
 
 def read_file(file_path):
-    # Implement the file reading functionality here
-    pass
+    path = Path(file_path)
+
+    if not path.exists():
+        print(f"ERROR: File {path} not found.")
+        return
+
+    try:
+        with open(path, 'r') as file:
+            content = file.read()
+            if not content:
+                print("EMPTY")
+            else:
+                print(content)
+    except Exception as e:
+        print(f"ERROR: Failed to read file {path}. {e}")
 
 def inspector(user_input):
     command = user_input[0]
@@ -27,17 +72,17 @@ def inspector(user_input):
     if command == 'Q':
         exit()
     elif command == 'L':
-        # Extract options and call list_contents function
-        pass
+        options = user_input[1:]
+        list_contents(*options)
     elif command == 'C':
-        # Extract options and call create_file function
-        pass
+        options = user_input[1:]
+        create_file(*options)
     elif command == 'D':
-        # Extract file path and call delete_file function
-        pass
+        file_path = user_input[1]
+        delete_file(file_path)
     elif command == 'R':
-        # Extract file path and call read_file function
-        pass
+        file_path = user_input[1]
+        read_file(file_path)
     else:
         print("ERROR: Unknown command")
 
