@@ -7,10 +7,13 @@ from pathlib import Path
 
 
 def catch_it(pass_it: str):
-    first_command = pass_it[0]
-    path = pass_it[1]
-    pass
+    catch = pass_it.split()
+    first_command = catch[0]
+    path = catch[1]
+    options = catch[2:-1]
+    search = catch[-1]
 
+    print(options)
 
 def quit_():
     exit(0)
@@ -18,7 +21,7 @@ def quit_():
 
 def main():
     try:
-        pass_it = input("Enter command: ")
+        pass_it = input()
         catch_it(pass_it)
     except KeyboardInterrupt:
         print("\nProgram interrupted by user.")
