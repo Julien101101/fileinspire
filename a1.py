@@ -3,28 +3,23 @@
 # Project 1: File Escavator
 
 from sys import exit
+from pathlib import Path
+
+
+def catch_it(pass_it: str):
+    first_command = pass_it[0]
+    path = pass_it[1]
+    pass
 
 
 def quit_():
     exit(0)
 
 
-def inspector(user_input):
-
-    command = user_input[0]
-    if command == 'Q':
-        quit_()
-    elif command == 'L':
-        # 9
-        pass
-
-    else:
-        pass
-
-
 def main():
     try:
-        user_input = input("Enter command: ")
+        pass_it = input("Enter command: ")
+        catch_it(pass_it)
     except KeyboardInterrupt:
         print("\nProgram interrupted by user.")
     except Exception as e:
