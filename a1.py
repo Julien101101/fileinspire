@@ -5,19 +5,30 @@
 from pathlib import Path
 
 
+class InputError:
+    pass
+
 def catch_it(pass_it: str):
-    catch = pass_it.split()
-    first_command = catch[0]
-    path = catch[1]
-    flags = catch[2:-1]
-    choice = catch[-1]
+    if first_command == None or path == None \
+        or flags == None or choice == None:
+        raise InputError
+    else:
+        catch = pass_it.split()
+        first_command = catch[0]
+        path = catch[1]
+        flags = catch[2:-1]
+        choice = catch[-1]    
+
 
     match first_command:
         case "L":
             # list
             try:
-
-            pass
+                path = Path(path)
+                for
+                pass
+            finally:
+                pass
             
         case "D":
             # delete
