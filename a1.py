@@ -9,37 +9,24 @@ class InputError:
     pass
 
 def catch_it(pass_it: str):
-    if first_command == None or path == None \
-        or flags == None or choice == None:
-        raise InputError
-    else:
-        catch = pass_it.split()
-        first_command = catch[0]
-        path = catch[1]
-        flags = catch[2:-1]
-        choice = catch[-1]    
-
-
+    catch = pass_it.split()
+    first_command = catch[0]
+    path = catch[1]
+    flags = catch[2:-1]
+    choice = catch[-1]  
+    
     match first_command:
         case "L":
-            # list
-            try:
-                path = Path(path)
-                for
-                pass
-            finally:
-                pass
-            
+            pass
         case "D":
-            # delete
             pass
-        case "R":
-            # read
-            pass
-        case _:
-            # action-default
+        case "Q":
             return
-
+        case "R":
+            pass
+        case "C":
+            pass
+     
 
 
 def main():
