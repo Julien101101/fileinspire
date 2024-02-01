@@ -12,6 +12,24 @@ def catch_it(pass_it: str):
     flags = catch[2:-1]
     choice = catch[-1]
 
+    match first_command:
+        case "L":
+            # list
+            try:
+
+            pass
+            
+        case "D":
+            # delete
+            pass
+        case "R":
+            # read
+            pass
+        case _:
+            # action-default
+            return
+
+
 
 def main():
     while pass_it != 'Q':
