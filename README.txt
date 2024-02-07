@@ -4,6 +4,7 @@ File inspector.
 
 COMMANDS:
 L - List the contents of the user specified directory.
+    
     -r Output directory content recursively.
     -f Output only files, excluding directories in the results.
     -s Output only files that match a given file name.

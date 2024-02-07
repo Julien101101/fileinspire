@@ -6,136 +6,143 @@ import os
 from pathlib import Path
 
 
-class InputError:
-    pass
+def understand_flags(flags: str) -> str:
+    c_flags = ''
+    print(flags)
+    for i in flags:
+        if i.isalnum():
+            c_flags += i
+    return c_flags
+
 
 def catch_it(pass_it: str):
+    if pass_it == 'Q':
+        return
     catch = pass_it.split()
     first_command = catch[0]
     path = catch[1]
     flags = catch[2:-1]
-    choice = catch[-1]  
+    choice = catch[-1] 
     
+    path = Path(path)
+    print(path)
+    c_flags = understand_flags(flags)
+    print(c_flags)
+    
+
     match first_command:
         case "L":
             try:
-                pathy = get_path()
-                stringy = understand_flags(flags)
-                triceratop = [choice]
-
-                triceratops = triceratops(pathy, stringy, triceratop)
-
-                for i in triceratops:
+                columbus = make_sense(path, c_flags, choice)
+                print(columbus)
+                for i in columbus:
                     print(i)
 
             finally:
                 pass
 
         case "D":
+            # unlink
             pass
 
-        case "Q":
-            return
         case "R":
+            # read
             pass
+
         case "C":
-            pass
-     
-    def get_path():
-        luna = Path(path)
-        if luna.is_dir():
-            return luna
-        raise FileNotFoundError
-    
-    def understand_flags():
-        pass
-
-def triceratops(pathy: Path, stringy: str, search_str: str) -> list:
-
-    if "r" in stringy:
-        if "f" in stringy:
-            def search_by_name(user_choice, file):
-                '''
-                Searches files in a list by their name recursively
-                '''
-
-                named_file = []
-
-                for f in file:
-                    path = Path(f)
-                    if path.name == user_choice:
-                        named_file.append(f)
-
-                return file
-            file = search_by_name(pathy, search_str)
-
-        if "stringy:
+            # create
             pass
 
-        def search_directories_recursively(dir):
-            subfolder, file = [], []
 
+def make_sense(path: Path, c_flags: str, search_str: str) -> list:
+    print(f"inside {c_flags}")
+    if c_flags != '':
+        print("here")
+        if "r" in c_flags:
+            if "f" in c_flags:
+                def search_by_name_recursively(user_choice, file):
+
+                    named_file = []
+
+                    for f in file:
+                        path = Path(f)
+                        if path.name == user_choice:
+                            named_file.append(f)
+
+                    return file
+                file = search_by_name_recursively(path, search_str)
+
+            if "e" in c_flags:
+                #recursively look for extensions
+                pass
+
+
+            def search_directories_recursively(dir):
+                subfolder, file = [], []
+
+                for f in os.scandir(dir):
+                    if f.is_dir():
+                        subfolder.append(f.path)
+                    if f.is_file():
+                        file.append(f.path)
+
+                for dir in list(subfolder):
+                    sf, f = search_directories_recursively(dir)
+                    subfolder.extend(sf)
+                    file.extend(f)
+
+                return subfolder, file
+            return file
+
+        elif "f" in c_flags:
+            file = []
             for f in os.scandir(dir):
-                if f.is_dir():
-                    subfolder.append(f.path)
+
                 if f.is_file():
                     file.append(f.path)
+            return file
 
-            for dir in list(subfolder):
-                sf, f = search_directories_recursively(dir)
-                subfolder.extend(sf)
-                file.extend(f)
+        elif "e" in c_flags:
+            def search_by_extension(user_choice, file):
+                '''
+                Searches files in a directory by their extension
+                '''
+                extension_file = []
 
-            return subfolder, file
-        return file
-    
-    elif "s" in stringy:
+                user_choice = user_choice.lstrip(".")
+
+                for f in file:
+                    if user_choice == f.name:
+                        extension_file.append(f)
+
+                return extension_file
+            
+            file = search_by_extension(search_str, path)
+
+            return file
+    else:
         file = []
 
-        for f in os.scandir(dir):
+        for f in os.scandir(path):
 
             if f.is_file():
                 file.append(f.path)
 
         return file
-    
-    elif "e" in stringy:
-        
-        def search_by_extension(user_choice, file):
-            '''
-            Searches files in a directory by their extension
-            '''
-            extension_file = []
-
-            user_choice = user_choice.lstrip(".")
-
-            for f in file:
-                if user_choice == f.name:
-                    extension_file.append(f)
-
-            return extension_file
-        
-        file = search_by_extension(pathy, pathy)
-
-        return file
-        
-
-
 
 
 
 def main():
+    pass_it = 'H'
     while pass_it != 'Q':
-        try:
-            pass_it = input()
-            catch_it(pass_it)
-        except KeyboardInterrupt:
-            print("\nProgram interrupted by user.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        finally:
-            pass
+        pass_it = input()
+        catch_it(pass_it)
 
 
 if __name__ == "__main__":
     main()
+
+
+    # so if i am seeing this right I can create 
+    # functions to create functions in order
+    # make this more succint, and more resuable.
