@@ -18,118 +18,112 @@ def understand_flags(flags: str) -> str:
 def catch_it(pass_it: str):
     if pass_it == 'Q':
         return
+    
     catch = pass_it.split()
+
     first_command = catch[0]
+
     path = catch[1]
-    flags = catch[2:-1]
-    choice = catch[-1] 
-    
     path = Path(path)
-    print(path)
+
+    flags = catch[2:-1]
+    # figure out what the flags are
     c_flags = understand_flags(flags)
-    print(c_flags)
-    
+
+    choice = catch[-1]
+
 
     match first_command:
         case "L":
-            try:
-                columbus = make_sense(path, c_flags, choice)
-                print(columbus)
-                for i in columbus:
-                    print(i)
+            # list
+            if 'r' in c_flags:
+                if 'f' in c_flags:
+                    '''only files'''
+                    pass
+                if 's' in c_flags:
+                    '''specific file name'''
+                    pass      
+                if 'e' in c_flags:
+                    '''extension'''
+                    pass
 
-            finally:
+            elif 'f' in c_flags:
                 pass
+
+            elif 's' in c_flags:
+                pass
+
+            elif 'e' in c_flags:
+                pass
+                    
+            else:
+                columbus = make_sense(path, c_flags, choice)
+                print_list(columbus)
 
         case "D":
             # unlink
-            pass
+            if 'r' in c_flags:
+                unlink_it_recursively(path, 'r', choice)
+
+
+            else:
+                unlink_it(path, '', choice)
+
 
         case "R":
-            # read
-            pass
+            # open and read a file given the exact path
+            read_it(path)
 
         case "C":
             # create
-            pass
+            create_it()
 
 
-def make_sense(path: Path, c_flags: str, search_str: str) -> list:
-    print(f"inside {c_flags}")
-    if c_flags != '':
-        print("here")
-        if "r" in c_flags:
-            if "f" in c_flags:
-                def search_by_name_recursively(user_choice, file):
+def search_by_name(user_choice, file, interesting_file):
+    '''
+    Searches files in a list by their name recursively
+    '''
 
-                    named_file = []
+    for f in file:
+        path = Path(f)
+        if path.name == user_choice:
+            interesting_file.append(f)
 
-                    for f in file:
-                        path = Path(f)
-                        if path.name == user_choice:
-                            named_file.append(f)
+    return interesting_file
 
-                    return file
-                file = search_by_name_recursively(path, search_str)
+    
 
-            if "e" in c_flags:
-                #recursively look for extensions
-                pass
+def print_list(print_it: list):
+    for i in print_it:
+        print(i)
 
 
-            def search_directories_recursively(dir):
-                subfolder, file = [], []
+def make_sense(path: Path, c_flags: str, choice: str):
+    file = []
 
-                for f in os.scandir(dir):
-                    if f.is_dir():
-                        subfolder.append(f.path)
-                    if f.is_file():
-                        file.append(f.path)
+    for f in os.scandir(path):
 
-                for dir in list(subfolder):
-                    sf, f = search_directories_recursively(dir)
-                    subfolder.extend(sf)
-                    file.extend(f)
+        if f.is_file():
+            file.append(f.path)
 
-                return subfolder, file
-            return file
+    return file
 
-        elif "f" in c_flags:
-            file = []
-            for f in os.scandir(dir):
 
-                if f.is_file():
-                    file.append(f.path)
-            return file
+def create_it(path: Path, choice: str):
+    if path.isdir():
+        create_this = path + choice
+        create_this.touch()
 
-        elif "e" in c_flags:
-            def search_by_extension(user_choice, file):
-                '''
-                Searches files in a directory by their extension
-                '''
-                extension_file = []
 
-                user_choice = user_choice.lstrip(".")
 
-                for f in file:
-                    if user_choice == f.name:
-                        extension_file.append(f)
+def unlink_it_recursively(path: Path, choice: str):
+    pass
 
-                return extension_file
-            
-            file = search_by_extension(search_str, path)
+def unlink_it(path: Path, choice: str):
+    pass
 
-            return file
-    else:
-        file = []
-
-        for f in os.scandir(path):
-
-            if f.is_file():
-                file.append(f.path)
-
-        return file
-
+def read_it(path: Path):
+    pass
 
 
 def main():
@@ -141,8 +135,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-    # so if i am seeing this right I can create 
-    # functions to create functions in order
-    # make this more succint, and more resuable.
