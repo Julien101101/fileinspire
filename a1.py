@@ -42,19 +42,22 @@ def catch_it(pass_it: str):
                 if 'f' in c_flags:
                     '''only files'''
                     # output only files recursively
-                    fine_files(path, 'r')
+                    fine_file = fine_files(file, 'r')
+                    print_list(fine_file)
                     return
 
                 if 's' in c_flags:
                     '''specific file name'''
                     # output files that match recursively
-                    search_by_name(path, 'r', choice)
+                    named_file = search_by_name(file, 'r', choice)
+                    print_list(named_file)
                     return      
 
                 if 'e' in c_flags:
                     '''extension'''
                     # output files that match extension recur
-
+                    ext_file = search_by_ext(file, 'r', choice)
+                    print_list(ext_file)
                     pass
 
                 else:
@@ -99,6 +102,7 @@ def catch_it(pass_it: str):
 def make_sense(path: Path, flag: str):
     if flag == 'r':
         pass
+        return
 
     elif flag == '':
         file = []
@@ -111,14 +115,14 @@ def make_sense(path: Path, flag: str):
         return file
 
 
-
-
 def fine_files(path: Path, flag: str):
     pass
 
-def search_by_name(path: Path, flag: str, interesting_file: str):
+def search_by_name(path: Path, flag: str, name_choice: str):
     pass
 
+def search_by_ext(file: list[str], flag: str, ext_choice: str):
+    pass
 
 def create_it(path: Path, choice: str):
     if path.isdir():
