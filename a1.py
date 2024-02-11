@@ -38,19 +38,23 @@ def catch_it(pass_it: str):
         case "L":
             # list
             if 'r' in c_flags:
+                file = make_sense(path, 'r') # new struct
                 if 'f' in c_flags:
                     '''only files'''
                     # output only files recursively
-                    pass
+                    fine_files(path, 'r')
+                    return
 
                 if 's' in c_flags:
                     '''specific file name'''
                     # output files that match recursively
-                    pass      
+                    search_by_name(path, 'r', choice)
+                    return      
 
                 if 'e' in c_flags:
                     '''extension'''
                     # output files that match extension recur
+
                     pass
 
                 else:
@@ -92,34 +96,28 @@ def catch_it(pass_it: str):
             # create
             create_it(path, choice)
 
+def make_sense(path: Path, flag: str):
+    if flag == 'r':
+        pass
 
-def search_by_name(user_choice, file, interesting_file):
-    '''
-    Searches files in a list by their name recursively
-    '''
+    elif flag == '':
+        file = []
 
-    for f in file:
-        path = Path(f)
-        if path.name == user_choice:
-            interesting_file.append(f)
+        for f in os.scandir(path):
 
-    return interesting_file
+            if f.is_file():
+                file.append(f.path)
 
-    
-def print_list(print_it: list):
-    for i in print_it:
-        print(i)
+        return file
 
 
-def make_sense(path: Path, c_flags: str, choice: str):
-    file = []
 
-    for f in os.scandir(path):
 
-        if f.is_file():
-            file.append(f.path)
+def fine_files(path: Path, flag: str):
+    pass
 
-    return file
+def search_by_name(path: Path, flag: str, interesting_file: str):
+    pass
 
 
 def create_it(path: Path, choice: str):
@@ -128,11 +126,7 @@ def create_it(path: Path, choice: str):
         create_this.touch()
 
 
-
-def unlink_it_recursively(path: Path, choice: str):
-    pass
-
-def unlink_it(path: Path, choice: str):
+def unlink_it(path: Path, flags: str, choice: str):
     pass
 
 def read_it(path: Path):
@@ -148,3 +142,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def print_list(print_it: list):
+    for i in print_it:
+        print(i)
