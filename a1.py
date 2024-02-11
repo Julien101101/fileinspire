@@ -27,6 +27,7 @@ def catch_it(pass_it: str):
     path = Path(path)
 
     flags = catch[2:-1]
+
     # figure out what the flags are
     c_flags = understand_flags(flags)
 
@@ -39,44 +40,57 @@ def catch_it(pass_it: str):
             if 'r' in c_flags:
                 if 'f' in c_flags:
                     '''only files'''
+                    # output only files recursively
                     pass
+
                 if 's' in c_flags:
                     '''specific file name'''
+                    # output files that match recursively
                     pass      
+
                 if 'e' in c_flags:
                     '''extension'''
+                    # output files that match extension recur
+                    pass
+
+                else:
+                    # output everything recursively
                     pass
 
             elif 'f' in c_flags:
+                # output only files in given dir
                 pass
 
             elif 's' in c_flags:
+                # output files that match in given dir
                 pass
 
             elif 'e' in c_flags:
+                # output files that match extension in dir
                 pass
                     
             else:
-                columbus = make_sense(path, c_flags, choice)
-                print_list(columbus)
+                # output everything
+                pass
 
         case "D":
             # unlink
             if 'r' in c_flags:
-                unlink_it_recursively(path, 'r', choice)
-
-
+                unlink_it(path, 'r', choice)
+                print('deleted that')
+            
             else:
                 unlink_it(path, '', choice)
+                print('deleted that')
 
 
         case "R":
             # open and read a file given the exact path
-            read_it(path)
+            read_it(path, choice)
 
         case "C":
             # create
-            create_it()
+            create_it(path, choice)
 
 
 def search_by_name(user_choice, file, interesting_file):
@@ -92,7 +106,6 @@ def search_by_name(user_choice, file, interesting_file):
     return interesting_file
 
     
-
 def print_list(print_it: list):
     for i in print_it:
         print(i)
