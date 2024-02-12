@@ -32,6 +32,7 @@ def catch_it(pass_it: str):
             # list
             if 'r' in c_flags:
                 subfolder, file = make_sense(path, 'r') # new struct
+                print(file)
                 if 'f' in c_flags:
                     '''only files'''
                     # output only files recursively
@@ -88,7 +89,7 @@ def catch_it(pass_it: str):
                 print("Remaining: ")
                 print_list(file)
             
-            elif '' is c_flags:
+            elif '' == c_flags:
                 # unlink not recursively
                 unlink_it(path, '', choice)
                 fly = make_sense(path, '')
@@ -164,7 +165,10 @@ def make_sense(path: Path, flag: str) -> list:
 ## =========================================================== ##
 
 def search_by_name(file: list[str], flag: str, name_choice: str):
-    pass
+    named_f = []
+    for i in file:
+        if file[i] == name_choice:
+            pass
 
 def search_by_ext(file: list[str], flag: str, ext_choice: str):
     pass
