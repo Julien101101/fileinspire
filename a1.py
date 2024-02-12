@@ -166,15 +166,25 @@ def make_sense(path: Path, flag: str) -> list:
 
 def search_by_name(file: list[str], flag: str, name_choice: str):
     named_f = []
-    for i in file:
-        if file[i] == name_choice:
-            named_f.append[file[i]]
+    for f in file:
+        path = Path(f)
+        if path.name == name_choice:
+            named_f.append(f)
+
     return named_f
 
+
 def search_by_ext(file: list[str], flag: str, ext_choice: str):
-    file_wit_ext = []
-    for i in file:
-        if file[i].extension:
+    ext_f = []
+
+    ext_choice = ext_choice.lstrip(".")
+
+    for f in file:
+        path = Path(f)
+        if ext_choice == f.name:
+            ext_f.append(f)
+
+    return ext_f
 
 def create_it(path: Path, choice: str):
     if path.isdir():
