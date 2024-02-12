@@ -5,15 +5,9 @@
 import os
 from pathlib import Path
 
-
-def understand_flags(flags: str) -> str:
-    c_flags = ''
-    print(flags)
-    for i in flags:
-        if i.isalnum():
-            c_flags += i
-    return c_flags
-
+## =========================================================== ##
+##            CATCH IT FUNCTION                                ##
+## =========================================================== ##
 
 def catch_it(pass_it: str):
     if pass_it == 'Q':
@@ -33,17 +27,15 @@ def catch_it(pass_it: str):
 
     choice = catch[-1]
 
-
     match first_command:
         case "L":
             # list
             if 'r' in c_flags:
-                file = make_sense(path, 'r') # new struct
+                subfolder, file = make_sense(path, 'r') # new struct
                 if 'f' in c_flags:
                     '''only files'''
                     # output only files recursively
-                    fine_file = fine_files(file, 'r')
-                    print_list(fine_file)
+                    print_list(file)
                     return
 
                 if 's' in c_flags:
@@ -58,67 +50,120 @@ def catch_it(pass_it: str):
                     # output files that match extension recur
                     ext_file = search_by_ext(file, 'r', choice)
                     print_list(ext_file)
-                    pass
+                    return
 
                 else:
                     # output everything recursively
-                    pass
+                    print_list(subfolder)
+                    print_list(file)
+            
+            elif 'r' not in c_flags:
+                fly = make_sense(path, '') #fly is the file but singular
+                if 'f' in c_flags:
+                    # output only files in given dir
+                    print_list(fly)
+                    return
+                    
+                elif 's' in c_flags:
+                    # output files that match in given dir
+                    named_fly = search_by_name(fly, '', choice)
+                    print_list(named_fly)
+                    return
 
-            elif 'f' in c_flags:
-                # output only files in given dir
-                pass
-
-            elif 's' in c_flags:
-                # output files that match in given dir
-                pass
-
-            elif 'e' in c_flags:
-                # output files that match extension in dir
-                pass
+                elif 'e' in c_flags:
+                    # output files that match extension in dir
+                    ext_fly = search_by_ext(fly, '', choice)
+                    print_list(ext_fly)
+                    return
                     
             else:
-                # output everything
-                pass
+                print("try again")
 
         case "D":
-            # unlink
+            # Delete
             if 'r' in c_flags:
+                # unlink recursively
                 unlink_it(path, 'r', choice)
-                print('deleted that')
+                file = make_sense(path, 'r')
+                print("Remaining: ")
+                print_list(file)
             
-            else:
+            elif '' is c_flags:
+                # unlink not recursively
                 unlink_it(path, '', choice)
-                print('deleted that')
+                fly = make_sense(path, '')
+                print("Remaining: ")
+                print_list(fly)
 
 
         case "R":
-            # open and read a file given the exact path
             read_it(path, choice)
 
         case "C":
-            # create
             create_it(path, choice)
+## =========================================================== ##
+##            CATCH IT FUNCTION                                ##
+## =========================================================== ##
 
-def make_sense(path: Path, flag: str):
+
+def understand_flags(flags: str) -> str:
+    c_flags = ''
+    for i in flags:
+        if i.isalnum():
+            c_flags += flags[i]
+    return c_flags
+
+
+## =========================================================== ##
+##            MAKE SENSE FUNCTION                              ##
+## =========================================================== ##
+def make_sense(path: Path, flag: str) -> list:
     if flag == 'r':
-        pass
-        return
+        #-------------------------------------------------------#
+        def search_directories_recursively(dir):
+            '''
+            R: makes a recursive search for files
+            '''
+            subfolder, file = [], []
 
-    elif flag == '':
-        file = []
+            for f in os.scandir(dir):
+                if f.is_dir():
+                    subfolder.append(f.path)
+                if f.is_file():
+                    file.append(f.path)
 
-        for f in os.scandir(path):
+            for dir in list(subfolder):
+                sf, f = search_directories_recursively(dir)
+                subfolder.extend(sf)
+                file.extend(f)
 
-            if f.is_file():
-                file.append(f.path)
-
+            return subfolder, file
+        #-------------------------------------------------------#
+        file = search_directories_recursively(path)
         return file
 
+    elif flag == '':
+        #-------------------------------------------------------#
+        def search_directory(dir): 
+            '''
+            D: makes a single sweep in a path for files
+            '''
+            file = []
 
-def fine_files(path: Path, flag: str):
-    pass
+            for f in os.scandir(dir):
 
-def search_by_name(path: Path, flag: str, name_choice: str):
+                if f.is_file():
+                    file.append(f.path)
+
+            return file
+        #-------------------------------------------------------#
+        file = search_directory(path)
+        return file
+## =========================================================== ##
+##            MAKE SENSE FUNCTION                              ##
+## =========================================================== ##
+
+def search_by_name(file: list[str], flag: str, name_choice: str):
     pass
 
 def search_by_ext(file: list[str], flag: str, ext_choice: str):
@@ -130,10 +175,15 @@ def create_it(path: Path, choice: str):
         create_this.touch()
 
 
-def unlink_it(path: Path, flags: str, choice: str):
-    pass
+def unlink_it(file: list[str], flag: str, choice: str):
+    if flag == 'r':
+        # recursive unlink
+        pass
+    else:
+        pass
 
 def read_it(path: Path):
+    # read the file
     pass
 
 
