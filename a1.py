@@ -188,8 +188,13 @@ def unlink_it(file: list[str], flag: str, choice: str):
 
 def read_it(path: Path):
     # read the file
-    pass
+    f = path.open('r')
+    f_contents = f.readlines()
+    print_list(f_contents)
 
+def print_list(print_it: list):
+    for i in print_it:
+        print(i)
 
 def main():
     pass_it = 'H'
@@ -200,8 +205,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-def print_list(print_it: list):
-    for i in print_it:
-        print(i)
