@@ -168,10 +168,13 @@ def search_by_name(file: list[str], flag: str, name_choice: str):
     named_f = []
     for i in file:
         if file[i] == name_choice:
-            pass
+            named_f.append[file[i]]
+    return named_f
 
 def search_by_ext(file: list[str], flag: str, ext_choice: str):
-    pass
+    file_wit_ext = []
+    for i in file:
+        if file[i].extension:
 
 def create_it(path: Path, choice: str):
     if path.isdir():
@@ -191,6 +194,7 @@ def read_it(path: Path):
     f = path.open('r')
     f_contents = f.readlines()
     print_list(f_contents)
+    f.close()
 
 def print_list(print_it: list):
     for i in print_it:
