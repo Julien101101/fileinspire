@@ -164,23 +164,21 @@ def make_sense(path: Path, flag: str) -> list:
 ##            MAKE SENSE FUNCTION                              ##
 ## =========================================================== ##
 
-def search_by_name(file: list[str], flag: str, name_choice: str):
+def search_by_name(file: list[Path], flag: str, name_choice: str):
     named_f = []
     for f in file:
-        path = Path(f)
-        if path.name == name_choice:
+        if f.name == name_choice:
             named_f.append(f)
 
     return named_f
 
 
-def search_by_ext(file: list[str], flag: str, ext_choice: str):
+def search_by_ext(file: list[Path], flag: str, ext_choice: str):
     ext_f = []
 
     ext_choice = ext_choice.lstrip(".")
 
     for f in file:
-        path = Path(f)
         if ext_choice == f.name:
             ext_f.append(f)
 
@@ -192,7 +190,7 @@ def create_it(path: Path, choice: str):
         create_this.touch()
 
 
-def unlink_it(file: list[str], flag: str, choice: str):
+def unlink_it(file: list[Path], flag: str, choice: str):
     if flag == 'r':
         # recursive unlink
         pass
